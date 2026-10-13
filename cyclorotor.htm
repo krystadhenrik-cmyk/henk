@@ -1,0 +1,1309 @@
+<head>
+	<title>cyclorotor</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+	<script>
+
+window.onload = oppstart;
+
+function oppstart() {
+	document.getElementById("btnTest").onclick = run;
+	document.getElementById("btnStart").onclick = start;
+	document.getElementById("btnLoad").onclick = load;
+	document.getElementById("btnCheat").onclick = cheat;
+	document.getElementById("typeline").value = "";
+	document.getElementById("Cheatpart").value = "";
+	document.getElementById("Cheatlock").value = 64;
+	document.getElementById("C").value = 0;
+	document.getElementById("RemoteID").value = 0;
+	document.getElementById("RemoteON").value = 0;
+	document.getElementById("stearmode").value = 0;
+	document.getElementById("txtE").value = 240;
+	document.getElementById("txtF").value = 0;
+	document.getElementById("txtG").value = 1;
+	document.getElementById("txtAx").value = "";
+	document.getElementById("camX").value = 0;
+	document.getElementById("camY").value = 0;
+	document.getElementById("camZ").value = 0;
+	document.getElementById("rotX").value = 0;
+	document.getElementById("rotY").value = 0;
+	document.getElementById("rotZ").value = 1;
+	document.getElementById("rotA").value = 0;
+	document.getElementById("rotB").value = 1;
+	document.getElementById("rotC").value = 0;
+	document.getElementById("posX").value = 0;
+	document.getElementById("posY").value = 0;
+	document.getElementById("posZ").value = 0;
+	document.getElementById("angX").value = 0;
+	document.getElementById("angY").value = 0;
+	document.getElementById("angZ").value = 1;
+	document.getElementById("angA").value = 0;
+	document.getElementById("angB").value = 1;
+	document.getElementById("angC").value = 0;
+	document.getElementById("angW").value = 0;
+	document.getElementById("velX").value = 0;
+	document.getElementById("velY").value = 0;
+	document.getElementById("velZ").value = 0;
+	document.getElementById("avlX").value = 0;
+	document.getElementById("avlY").value = 0;
+	document.getElementById("avlZ").value = 0;
+	document.getElementById("avlW").value = 0;
+	document.getElementById("accX").value = 0;
+	document.getElementById("accY").value = 0;
+	document.getElementById("accZ").value = 0;
+	document.getElementById("aacX").value = 0;
+	document.getElementById("aacY").value = 0;
+	document.getElementById("aacZ").value = 0;
+	document.getElementById("aacW").value = 0;
+	document.getElementById("frcX").value = 0;
+	document.getElementById("frcY").value = 0;
+	document.getElementById("frcZ").value = 0;
+	document.getElementById("torX").value = 0;
+	document.getElementById("torY").value = 0;
+	document.getElementById("torZ").value = 0;
+	document.getElementById("torW").value = 0;
+	document.getElementById("inaM").value = 10;
+	document.getElementById("inax").value = 1;
+	document.getElementById("inaY").value = 1;
+	document.getElementById("inaZ").value = 0;
+	document.getElementById("inaW").value = 1/12;
+	document.getElementById("inaP").value = 0;
+	document.getElementById("comX").value = 0;
+	document.getElementById("comY").value = 0;
+	document.getElementById("comZ").value = 0;
+	document.getElementById("winX").value = 0;
+	document.getElementById("winY").value = 0;
+	document.getElementById("winZ").value = 0;
+	document.getElementById("mouseX").value = 0;
+	document.getElementById("mouseY").value = 0;
+	document.getElementById("keyRemX").value = 0;
+	document.getElementById("keyRemY").value = 0;
+	document.getElementById("keypress").value = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	document.getElementById("touch1x").value = 0;
+	document.getElementById("touch1y").value = 0;
+	document.getElementById("touch2x").value = 0;
+	document.getElementById("touch2y").value = 0;
+	document.getElementById("gridposX").value = 0;
+	document.getElementById("gridposY").value = 0;
+	document.getElementById("cameraPerspectives").value = 0;
+	document.getElementById("checkpoints").value = "80,60,-240,140,60,-480,140,60,-720,80,60,-960,0,60,-1200,-80,60,-960,-140,60,-720,-140,60,-480,-80,60,-240,0,60,0";
+	document.getElementById("videoRecord").value = [];
+	document.getElementById("videoCommand").value = 0;
+	document.getElementById("videoPos").value = 0;
+	document.getElementById("orderBody").value = "135624";
+	document.getElementById("orderDrone").value = "563401278";
+	document.getElementById("fpscount").value = "";
+	document.getElementById("fps").innerHTML = "FPS";
+	document.getElementById("utskrift").innerHTML = "";
+	document.getElementById("utskrift2").innerHTML = "";
+	document.getElementById("image").value = "";
+	document.getElementById("file").value = "";
+	document.getElementById("run").value = 0;
+	myVar2 = setInterval(function(){fps();}, 1000);
+	myVar = setInterval(function(){draw();}, 1); 
+	//document.getElementById("move").value = "|";
+	load(); start();
+}
+
+
+function load() {
+	var file = document.getElementById("file").value;
+	var img = "";
+	var movelist = "";
+	var mark = 0;
+	var t = 0;
+		for(var i = 0; i < file.length; i++) {
+			if(mark < 20) {img = img + file[i];} else {movelist = movelist + file[i]; t++; if(t > 3){t = 0;};}
+			if(file[i] == "|") {mark = 0;} else {mark++;}
+		}
+	//document.getElementById("utskrift").innerHTML = img;
+	document.getElementById("image").value = img;
+	document.getElementById("move").value = movelist;
+	draw();
+}
+
+
+
+
+
+function start() {
+	var n = document.getElementById("txtE").value;
+	//myVar = "";
+	//clearTimeout(myVar);
+	//myVar = setInterval(function(){draw();}, 1000 / n); 
+	//document.getElementById("txtF").value = n; // clearTimeout(myVar2);
+	if(run < 1) {run = 1} else {run = 0}
+	document.getElementById("run").value = run;
+	if(run == 1){document.getElementById("btnStart").value = "Pause";}
+	if(run == 0){document.getElementById("btnStart").value = "Play" ;}
+	run = document.getElementById("run").value;
+}
+
+
+
+
+
+function fps() {
+	document.getElementById("fps").innerHTML = "FPS = " + document.getElementById("fpscount").value;
+	document.getElementById("fpscount").value = 0;
+}
+
+
+
+
+
+function run() {
+	var framerate = document.getElementById("txtF").value;
+	if((framerate > 0)||(framerate < 0)) {} else {sleep();}
+}
+
+
+
+
+
+function draw() {
+	FPS = document.getElementById("fps").innerHTML;
+	document.getElementById("fpscount").value++;
+	run = document.getElementById("run").value;
+	camX = document.getElementById("camX").value;
+	camY = document.getElementById("camY").value;
+	camZ = document.getElementById("camZ").value;
+	rotX = document.getElementById("rotX").value;
+	rotY = document.getElementById("rotY").value;
+	rotZ = document.getElementById("rotZ").value;
+	rotA = document.getElementById("rotA").value;
+	rotB = document.getElementById("rotB").value;
+	rotC = document.getElementById("rotC").value;
+	posX = document.getElementById("posX").value;
+	posY = document.getElementById("posY").value;
+	posZ = document.getElementById("posZ").value;
+	angX = document.getElementById("angX").value;
+	angY = document.getElementById("angY").value;
+	angZ = document.getElementById("angZ").value;
+	angA = document.getElementById("angA").value;
+	angB = document.getElementById("angB").value;
+	angC = document.getElementById("angC").value;
+	angW = document.getElementById("angW").value;
+	velX = document.getElementById("velX").value;
+	velY = document.getElementById("velY").value;
+	velZ = document.getElementById("velZ").value;
+	avlX = document.getElementById("avlX").value;
+	avlY = document.getElementById("avlY").value;
+	avlZ = document.getElementById("avlZ").value;
+	avlW = document.getElementById("avlW").value;
+	accX = document.getElementById("accX").value;
+	accY = document.getElementById("accY").value;
+	accZ = document.getElementById("accZ").value;
+	aacX = document.getElementById("aacX").value;
+	aacY = document.getElementById("aacY").value;
+	aacZ = document.getElementById("aacZ").value;
+	aacW = document.getElementById("aacW").value;
+	frcX = document.getElementById("frcX").value;
+	frcY = document.getElementById("frcY").value;
+	frcZ = document.getElementById("frcZ").value;
+	torX = document.getElementById("torX").value;
+	torY = document.getElementById("torY").value;
+	torZ = document.getElementById("torZ").value;
+	torW = document.getElementById("torW").value;
+	inax = document.getElementById("inax").value;
+	inaY = document.getElementById("inaY").value;
+	inaZ = document.getElementById("inaZ").value;
+	inaW = document.getElementById("inaW").value;
+	inaP = document.getElementById("inaP").value;
+	inaM = document.getElementById("inaM").value;
+	comX = document.getElementById("comX").value;	//senter of mass
+	comY = document.getElementById("comY").value;
+	comZ = document.getElementById("comZ").value;
+	winX = document.getElementById("winX").value;
+	winY = document.getElementById("winY").value;
+	winZ = document.getElementById("winZ").value;
+	visX = posX - camX;
+	visY = posY - camY;
+	visZ = posZ - camZ;
+	test="";
+	
+	camview = document.getElementById("cameraPerspectives").value;
+	gridposX = document.getElementById("gridposX").value;
+	gridposY = document.getElementById("gridposY").value;
+	checkpoints = document.getElementById("checkpoints").value;
+
+	stearmode = document.getElementById("stearmode").value;
+	keypress = document.getElementById("keypress").value;
+	touch1x = document.getElementById("touch1x").value;
+	touch1y = document.getElementById("touch1y").value;
+	touch2x = document.getElementById("touch2x").value;
+	touch2y = document.getElementById("touch2y").value;
+	
+	keyRemX = document.getElementById("keyRemX").value;
+	keyRemY = document.getElementById("keyRemY").value;
+	let rem = 0; if(keypress[39] == 1) {rem = rem + 1;} if(keypress[37] == 1) {rem = rem - 1;}
+	keyRemX = keyRemX + (keyRemX*keyRemX*5+0.5)*rem/40;
+	if(keyRemX > 1) {keyRemX = 1} if(keyRemX <-1) {keyRemX =-1}
+	if(rem == 0) {keyRemX = keyRemX*0.9;}
+	rem = 0; if(keypress[38] == 1) {rem = rem + 1;} if(keypress[40] == 1) {rem = rem - 1;}
+	keyRemY = keyRemY + (keyRemY*keyRemY*5+0.5)*rem/40;
+	if(keyRemY > 1) {keyRemY = 1} if(keyRemY <-1) {keyRemY =-1}
+	if(rem == 0) {keyRemY = keyRemY*0.9;}
+	document.getElementById("keyRemX").value = keyRemX;
+	document.getElementById("keyRemY").value = keyRemY;
+
+	mouseX = document.getElementById("mouseX").value;
+	mouseY = document.getElementById("mouseY").value;
+	
+	var simtime = document.getElementById("txtG").value;
+	if((simtime > -1)||(simtime < 1)){} else {simtime = 1}
+	FPS = parseInt(FPS);
+	if((FPS > 0)||(FPS < 0)){} else {FPS = 10000}
+	simtime = (simtime) * 40 / FPS; //avlX = 0.1;
+
+	vrec = document.getElementById("videoRecord").value;
+	vcom = document.getElementById("videoCommand").value;
+	vpos = document.getElementById("videoPos").value;
+	if(vrec.length > 12000) {vcom = 2;}
+	if(run == 1){
+		if(vcom == 0||vcom == 1){
+			velX = velX + accX * simtime;
+			velY = velY + accY * simtime;
+			velZ = velZ + accZ * simtime; 
+			avlX = avlX + aacX * simtime;
+			avlY = avlY + aacY * simtime;
+			avlZ = avlZ + aacZ * simtime;
+			avlW = avlW + aacW * simtime;
+			posX = posX + velX * simtime;
+			posY = posY + velY * simtime;
+			posZ = posZ + velZ * simtime;
+			angW = angW + avlW * simtime; while(angW >  0.5){angW = angW - 1;} while(angW < 0.5){angW = angW + 1;}
+			for(var i = 0; i < 4; i++) {
+				if(i == 0){A = angX; B = angY; C = angZ; X = avlX; Y = avlY; Z = avlZ;}
+				if(i == 1){A = angA; B = angB; C = angC;                              }
+				if(i == 2){A = rotX; B = rotY; C = rotZ; X = cmrX; Y = cmrY; Z = cmrZ;}
+				if(i == 3){A = rotA; B = rotB; C = rotC;                              }
+				if(i == 0||i == 2){Y = Y + 0.000001; d = X*X + Y*Y + Z*Z; g = Math.sqrt(d);
+				s = Math.sin(g * simtime * 2 * Math.PI); q = Math.cos(g * simtime * 2 * Math.PI); o = Math.sqrt(s*s + q*q);}
+					m = A*X + B*Y + C*Z;
+					W = (X * m + (((Y * Y + Z * Z) * A - (Z * C + Y * B) * X) * q + (B * Z - C * Y) * s * g) / o) / d;
+					H = (Y * m + (((Z * Z + X * X) * B - (X * A + Z * C) * Y) * q + (C * X - A * Z) * s * g) / o) / d;
+					U = (Z * m + (((X * X + Y * Y) * C - (Y * B + X * A) * Z) * q + (A * Y - B * X) * s * g) / o) / d;
+				if(i == 0){angX = W; angY = H; angZ = U}
+				if(i == 1){angA = W; angB = H; angC = U}
+				if(i == 2){rotX = W; rotY = H; rotZ = U}
+				if(i == 3){rotA = W; rotB = H; rotC = U}
+			}
+		}
+		if(vcom == 1){vrec = vrec.concat([posX,posY,posZ,angX,angY,angZ,angA,angB,angC,velX,velY,velZ]);}
+		if(vcom == 2){
+			camview = 1;
+			posX = vrec[vpos+00]; posY = vrec[vpos+01]; posZ = vrec[vpos+02];
+			angX = vrec[vpos+03]; angY = vrec[vpos+04]; angZ = vrec[vpos+05];
+			angA = vrec[vpos+06]; angB = vrec[vpos+07]; angC = vrec[vpos+08];
+			velX = vrec[vpos+09]; velY = vrec[vpos+10]; velZ = vrec[vpos+11]; 
+			vpos = vpos + 12; if(vpos >= vrec.length){vpos = 0;}
+		}
+	}
+	document.getElementById("videoRecord").value = vrec;
+	document.getElementById("videoCommand").value = vcom;
+	document.getElementById("videoPos").value = vpos;
+
+	mir = 0;
+	for(var i = 0; i < 4; i++) {
+		if(i == 0){X = angX; Y = angY; Z = angZ; A = angA; B = angB; C = angC;}	// drone physics angle
+		if(i == 1){mir = 1}														// drone experience angle
+		if(i == 2){X = rotX; Y = rotY; Z = rotZ; A = rotA; B = rotB; C = rotC;} // camera angle
+		if(i == 3){mir = 1}														// background angle // camera watching drone angle
+		a = Z * B - Y * C;
+		b = X * C - Z * A;
+		c = Y * A - X * B;
+		w = (Y * Y + Z * Z) * A - (Z * C + Y * B) * X;
+		h = (Z * Z + X * X) * B - (X * A + Z * C) * Y;
+		u = (X * X + Y * Y) * C - (Y * B + X * A) * Z;
+		t = Math.sqrt(a * a + b * b + c * c);
+		r = Math.sqrt(w * w + h * h + u * u);
+		d = Math.sqrt(X * X + Y * Y + Z * Z);
+		if(mir == 0){
+			w1 = a / t; w2 = w / r; w3 = X / d;
+			h1 = b / t; h2 = h / r; h3 = Y / d;
+			u1 = c / t; u2 = u / r; u3 = Z / d;
+		} else {
+			v = a * u * Y + h * X * c + Z * w * b - a * h * Z - b * u * X - c * w * Y;
+			w1 = (Y * u - h * Z) * t / v; w2 = (Z * w - u * X) * t / v; w3 = (X * h - w * Y) * t / v;
+			h1 = (b * Z - Y * c) * r / v; h2 = (c * X - Z * a) * r / v; h3 = (a * Y - X * b) * r / v;
+			u1 = (h * c - b * u) * d / v; u2 = (u * a - c * w) * d / v; u3 = (w * b - a * h) * d / v;
+		} mir = 0;
+		W = "(w) * " + w1 + " + (h) * " + w2 + " + (u) * " + w3;
+		H = "(w) * " + h1 + " + (h) * " + h2 + " + (u) * " + h3;
+		U = "(w) * " + u1 + " + (h) * " + u2 + " + (u) * " + u3;
+		eval('ax' + i + 'X = W; ax' + i + 'Y = H; ax' + i + 'Z = U;')
+	}
+	
+	w = velX; h = velY; u = velZ; vx = eval(ax1X); vy = eval(ax1Y); vz = eval(ax1Z);
+	w = avlX; h = avlY; u = avlZ; vX = eval(ax1X); vY = eval(ax1Y); vZ = eval(ax1Z);
+	vW = avlW;
+	w = accX; h = accY; u = accZ; ax = eval(ax1X); ay = eval(ax1Y); az = eval(ax1Z);
+	w = aacX; h = aacY; u = aacZ; ax = eval(ax1X); aY = eval(ax1Y); aZ = eval(ax1Z);
+	aW = aacW;
+
+	grip = "(1 * (1 / 2 - 1 / (1 + (Math.E)^(-(x)))) - x / 48)*1000";
+	grip = " -1 * (1/16 + (Math.sqrt(y*4)^2)/4) * (x)^(1/3)";
+	grip = "(y^(1/3))*(0.25 + Math.sqrt(Math.sqrt(x*x + z*z)/10000))";
+	
+	wid = window.innerWidth;
+	hei = window.innerHeight;
+	if(hei > wid) {longdim = hei; shordim = wid;} else {longdim = wid; shordim = hei;}
+	screenerad = Math.sqrt(wid * wid + hei * hei);
+	imgres = Math.sqrt(wid*wid + hei*hei)/2; //imgres = 768;
+	g = 9.81;
+	var d1 = 40 * 4/768;
+	var d2 = 10 * 4/768;
+	var d3 = 20 * 4/768;
+	var d4 = 08 * 4/768;
+	var d5 = 01 * 4/768;
+	var d6 = 30 * 4/768;
+	var d7 = 30 * 4/768;
+	var d8 = 60 * 4/768;
+	var blades = 6;
+	var players = 1;
+	
+	document.getElementById("gridposX").value = gridposX + vx/(4*imgres);
+	document.getElementById("gridposY").value = gridposY - vy/(4*imgres);
+
+	joy1x = 0;
+	joy1y = 0;
+	joy2x = 0;
+	joy2y = 0;
+	joyOn = 1;
+
+	joy1PosZ = (1        ) * (imgres/2);
+	joy2PosZ = (1        ) * (imgres/2);
+	joy1PosX = (-1 + 3/16) * wid/2 + joy1PosZ/4;
+	joy1PosY = (-1 + 3/16) * hei/2 + joy1PosZ/4;
+	joy2PosX = (+1 - 3/16) * wid/2 - joy1PosZ/4;
+	joy2PosY = (-1 + 3/16) * hei/2 + joy1PosZ/4;
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////scan		
+	var fov = 1;
+	var qual = 3600000;
+	var t1 = 1/192;
+	var t2 = 1/imgres;
+	var t3 = 0.01;
+	pow = 0;//velX=0;velY=0;posX = imgres/4; posY = imgres/4;
+	inaZ = 1;//camX =0;camY =0;camZ =0;
+	vel = Math.pow(velX * velX + velY * velY ,0.5);
+	velang = Math.atan(velX/velY) / (2* Math.PI);
+	if(velY<0){if(velX>0){velang = velang + 0.5;} else {velang = velang - 0.5}}
+	wiYstabilize = (avlW * d3 * 2 * Math.PI - velZ)/(1200*velZ+0.0001); wiYstabilize = 1;
+//################################################################################################################################################################################################################################################################################
+//################################################################################################################################################################################################################################################################################
+//################################################################################################################################################################################################################################################################################
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	mouseang = Math.atan(mouseX/mouseY) / (2 * Math.PI);
+	if(mouseY < 0){if(mouseX > 0){mouseang = mouseang + 0.5;} else {mouseang = mouseang - 0.5;}}
+	remang = Math.atan(keyRemX/keyRemY) / (2 * Math.PI);
+	if(keyRemY < 0){if(keyRemX > 0){remang = remang + 0.5;} else {remang = remang - 0.5;}}
+	joy1y = mouseY;
+	joy1x = mouseX;
+	joy2x = keyRemX + touch2x;
+	joy2y = keyRemY + touch2y;
+
+
+	fR1 = "o+0.25"; fL1 = "o+0.25"; fR2 = "o0.25"; fL2 = "o0.25";
+	if(stearmode == 0) {
+		if(mouseX > 0){if(avlW > 4000){pow = -80;} if(avlW < 4000){pow = 80;}}
+		if(mouseX < 0){if(avlW > 0000){pow = -80;} if(avlW < 0000){pow = 80;}}
+		if(vz > 0) {vxf = -vx/4;} else {vxf = vx/4;} vxf = 0;
+		fR1 = "(+0.25) + (+ Math.sin((o)* 2*Math.PI)/12) * (joy1y+(wiYstabilize)*vY/4 - vxf/12) + (joy2y*5 - vy/200 -vX/10)/128 + (joy2x-vZ/10)/128";
+		fL1 = "(+0.25) + (+ Math.sin((o)* 2*Math.PI)/12) * (joy1y-(wiYstabilize)*vY/4 + vxf/12) + (joy2y*5 - vy/200 -vX/10)/128 - (joy2x-vZ/10)/128";
+		fR2 = "(+0.25) + (- Math.sin((o)* 2*Math.PI)/12) * (joy1y+(wiYstabilize)*vY/4 - vxf/12) - (-joy2y*4-vX/10)/128 + (joy2x-vZ*Math.pow(1 + 2*joy2y,2)/20)/128";
+		fL2 = "(+0.25) + (- Math.sin((o)* 2*Math.PI)/12) * (joy1y-(wiYstabilize)*vY/4 + vxf/12) - (-joy2y*4-vX/10)/128 - (joy2x-vZ*Math.pow(1 + 2*joy2y,2)/20)/128";
+	}
+	if(stearmode == 1) {
+		avlW = 200;
+		if(joy1y > 0){powerY = joy1y;} else {if(joy1y < 0.5){powerY = joy1y * 2 + 1;} else {powerY = 0;}}
+		fR1 = "(o+0.25) + (- Math.cos((o)* 2*Math.PI)/8) * ((-keyRemY-keyRemX)/30 + powerY)";
+		fL1 = "(o+0.25) + (- Math.cos((o)* 2*Math.PI)/8) * ((-keyRemY+keyRemX)/30 + powerY)";
+		fR2 = "(o+0.25) + (+ Math.cos((o)* 2*Math.PI)/8) * ((+keyRemY-keyRemX)/30 + powerY)";
+		fL2 = "(o+0.25) + (+ Math.cos((o)* 2*Math.PI)/8) * ((+keyRemY+keyRemX)/30 + powerY)";
+	}
+	if(stearmode == 2) {
+		avlW = 200;
+		if(joy1y > 0){powerY = joy1y;} else {if(joy1y < 0.5){powerY = joy1y * 2 + 1;} else {powerY = 0;}}
+		fR1 = "0.25 + (- Math.cos((o)* 2*Math.PI)/8) * (joy1y + (- joy2x - joy2y) / 8)";
+		fL1 = "0.25 + (- Math.cos((o)* 2*Math.PI)/8) * (joy1y + (+ joy2x - joy2y) / 8)";
+		fR2 = "0.25 + (+ Math.cos((o)* 2*Math.PI)/8) * (joy1y + (- joy2x + joy2y) / 8)";
+		fL2 = "0.25 + (+ Math.cos((o)* 2*Math.PI)/8) * (joy1y + (+ joy2x + joy2y) / 8)";
+	}
+	if(stearmode == 3) {}
+	if(stearmode == 4) {}
+	if(stearmode == 5) {}
+	if(stearmode == 6) {}
+	if(stearmode == 7) {}
+	if(stearmode == 8) {}
+	if(stearmode == 9) {}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//################################################################################################################################################################################################################################################################################
+//################################################################################################################################################################################################################################################################################
+//################################################################################################################################################################################################################################################################################
+	
+	if(Math.pow(posX,2) + Math.pow(posY,2) + Math.pow(posZ,2) < 1) {document.getElementById("checkpoints").value = "80,60,-240,140,60,-480,140,60,-720,80,60,-960,0,60,-1200,-80,60,-960,-140,60,-720,-140,60,-480,-80,60,-240,0,60,0";}
+	
+	if(document.getElementById("RemoteON").value == 1) {camview = 1;} else {camview = 0;}
+	//camview = 1; posX = 0; posY = 0; posZ = -1; velX = 0; velY = 0; velZ = -1; avlX = 0; avlY = 1; avlZ = 0;
+	
+	cmrX = 0; cmrY = 0; cmrZ = 0;
+	if(camview == 0) {
+		camX = posX + accX/400; camY = posY + accY/400; camZ = posZ + accZ/400;
+		rotX =-velX; rotY =-velY; rotZ =-velZ + 0.00001;
+		rotA = 0; rotB = 1; rotC = 0;
+
+	}
+	
+	
+	if(camview == 1) {
+		dronedist = Math.sqrt(Math.pow(camX - posX,2) + Math.pow(camY - posY,2) + Math.pow(camZ - posZ,2));
+		w = keyRemX; h = 0; u = -keyRemY;
+		camX = camX + eval(ax2X); camY = camY + eval(ax2Y); camZ = camZ + eval(ax2Z);
+		rotX = Math.sin(-mouseX/120); rotZ = Math.cos(-mouseX/120); rotY = -mouseY/120; //cmrY = keyRemX;
+		//camX = camX + (visX*visX*visX)*0.01; camY = camY + (visY*visY*visY)*0.01; camZ = camZ + (visZ*visZ*visZ)*0.01;
+		rotA = 0; rotB = 1; rotC = 0;
+		if(velX*velX + velY*velY + velZ*velZ < 0.25){rotX = 0; rotY = 0; rotZ = 1;}
+	}
+	
+		w = +(d7 + d8)/2; h = 0; u = -d1; pR1x = eval(ax0X); pR1y = eval(ax0Y); pR1z = eval(ax0Z);
+		w = -(d7 + d8)/2; h = 0; u = -d1; pL1x = eval(ax0X); pL1y = eval(ax0Y); pL1z = eval(ax0Z);
+		w = +(d7 + d8)/2; h = 0; u = +d1; pR2x = eval(ax0X); pR2y = eval(ax0Y); pR2z = eval(ax0Z);
+		w = -(d7 + d8)/2; h = 0; u = +d1; pL2x = eval(ax0X); pL2y = eval(ax0Y); pL2z = eval(ax0Z);
+		vel_R1x = velX + 2 * Math.PI * (avlZ * pR1y - avlY * pR1z);
+		vel_R1y = velY + 2 * Math.PI * (avlX * pR1z - avlZ * pR1x);
+		vel_R1z = velZ + 2 * Math.PI * (avlY * pR1x - avlX * pR1y);
+		vel_L1x = velX + 2 * Math.PI * (avlZ * pL1y - avlY * pL1z);
+		vel_L1y = velY + 2 * Math.PI * (avlX * pL1z - avlZ * pL1x);
+		vel_L1z = velZ + 2 * Math.PI * (avlY * pL1x - avlX * pL1y);
+		vel_R2x = velX + 2 * Math.PI * (avlZ * pR2y - avlY * pR2z);
+		vel_R2y = velY + 2 * Math.PI * (avlX * pR2z - avlZ * pR2x);
+		vel_R2z = velZ + 2 * Math.PI * (avlY * pR2x - avlX * pR2y);
+		vel_L2x = velX + 2 * Math.PI * (avlZ * pL2y - avlY * pL2z);
+		vel_L2y = velY + 2 * Math.PI * (avlX * pL2z - avlZ * pL2x);
+		vel_L2z = velZ + 2 * Math.PI * (avlY * pL2x - avlX * pL2y);
+
+		frcR1x = 0; frcR1y = 0; frcR1z = 0; torR1w = 0;
+		frcL1x = 0; frcL1y = 0; frcL1z = 0; torL1w = 0;
+		frcR2x = 0; frcR2y = 0; frcR2z = 0; torR2w = 0;
+		frcL2x = 0; frcL2y = 0; frcL2z = 0; torL2w = 0;
+		mem1 = ""; mem2 = ""; mem3 = ""; mem4 = "";
+		for(var i = 0; i < blades; i++) {
+			angWP = +angW+i/blades;
+			angWN = -angW+i/blades;
+			i1x = Math.sin(angWP * 2 * Math.PI); i1y = Math.cos(angWP * 2 * Math.PI);
+			i2x = Math.sin(angWN * 2 * Math.PI); i2y = Math.cos(angWN * 2 * Math.PI);
+			w = 0; h = -i1x * d3 * avlW * 2 * Math.PI; u = -i1y * d3 * avlW * 2 * Math.PI;
+			ax11 = eval(ax0X); ax12 = eval(ax0Y); ax13 = eval(ax0Z);
+			w = 0; h = +i2x * d3 * avlW * 2 * Math.PI; u = +i2y * d3 * avlW * 2 * Math.PI;
+			ax14 = eval(ax0X); ax15 = eval(ax0Y); ax16 = eval(ax0Z);
+			vwiR1x = vel_R1x + ax11; vwiR1y = vel_R1y + ax12; vwiR1z = vel_R1z + ax13;
+			vwiL1x = vel_L1x + ax11; vwiL1y = vel_L1y + ax12; vwiL1z = vel_L1z + ax13;
+			vwiR2x = vel_R2x + ax14; vwiR2y = vel_R2y + ax15; vwiR2z = vel_R2z + ax16;
+			vwiL2x = vel_L2x + ax14; vwiL2y = vel_L2y + ax15; vwiL2z = vel_L2z + ax16;
+
+			o = angWP;
+			pichR1 = eval(fR1);
+			pichL1 = eval(fL1);             // if(i == 0){comX = pR1x; comY = pR1y; comZ = pR1z; pichR1 = 0;} else { }
+			o = angWN;
+			pichR2 = eval(fR2);
+			pichL2 = eval(fL2);
+			pichR1x = Math.sin((pichR1)*2*Math.PI); 
+			pichR1y = Math.cos((pichR1)*2*Math.PI);
+			pichL1x = Math.sin((pichL1)*2*Math.PI);
+			pichL1y = Math.cos((pichL1)*2*Math.PI);
+			pichR2x = Math.sin((pichR2)*2*Math.PI);
+			pichR2y = Math.cos((pichR2)*2*Math.PI);
+			pichL2x = Math.sin((pichL2)*2*Math.PI);
+			pichL2y = Math.cos((pichL2)*2*Math.PI);
+
+			w = vwiR1x; h = vwiR1y; u = vwiR1z;
+			wiexpR1x = eval(ax1X); wiexpR1y = eval(ax1Y) * pichR1x + eval(ax1Z) * pichR1y; wiexpR1z = eval(ax1Z) * pichR1x - eval(ax1Y) * pichR1y;
+			w = vwiL1x; h = vwiL1y; u = vwiL1z;
+			wiexpL1x = eval(ax1X); wiexpL1y = eval(ax1Y) * pichL1x + eval(ax1Z) * pichL1y; wiexpL1z = eval(ax1Z) * pichL1x - eval(ax1Y) * pichL1y;
+			w = vwiR2x; h = vwiR2y; u = vwiR2z;
+			wiexpR2x = eval(ax1X); wiexpR2y = eval(ax1Y) * pichR2x + eval(ax1Z) * pichR2y; wiexpR2z = eval(ax1Z) * pichR2x - eval(ax1Y) * pichR2y;
+			w = vwiL2x; h = vwiL2y; u = vwiL2z;
+			wiexpL2x = eval(ax1X); wiexpL2y = eval(ax1Y) * pichL2x + eval(ax1Z) * pichL2y; wiexpL2z = eval(ax1Z) * pichL2x - eval(ax1Y) * pichL2y;
+
+				x = wiexpR1x; y = wiexpR1y; z = wiexpR1z; wiexpR1y = eval(grip); 
+				a = wiexpR1y * pichR1x - wiexpR1z*0 * pichR1y; b = wiexpR1z*0 * pichR1x + wiexpR1y * pichR1y;
+				w = -parseInt(wiexpR1x)*0; h = -parseInt(a); u = -parseInt(b);
+			wiFR1x = eval(ax0X); wiFR1y = eval(ax0Y); wiFR1z = eval(ax0Z);
+				x = wiexpL1x; y = wiexpL1y; z = wiexpL1z; wiexpL1y = eval(grip); 
+				a = wiexpL1y * pichL1x - wiexpL1z*0 * pichL1y; b = wiexpL1z*0 * pichL1x + wiexpL1y * pichL1y;
+				w = -parseInt(wiexpL1x)*0; h = -parseInt(a); u = -parseInt(b);
+			wiFL1x = eval(ax0X); wiFL1y = eval(ax0Y); wiFL1z = eval(ax0Z);
+				x = wiexpR2x; y = wiexpR2y; z = wiexpR2z; wiexpR2y = eval(grip); 
+				a = wiexpR2y * pichR2x - wiexpR2z*0 * pichR2y; b = wiexpR2z*0 * pichR2x + wiexpR2y * pichR2y;
+				w = -parseInt(wiexpR2x)*0; h = -parseInt(a); u = -parseInt(b);
+			wiFR2x = eval(ax0X); wiFR2y = eval(ax0Y); wiFR2z = eval(ax0Z);
+				x = wiexpL2x; y = wiexpL2y; z = wiexpL2z; wiexpL2y = eval(grip); 
+				a = wiexpL2y * pichL2x - wiexpL2z*0 * pichL2y; b = wiexpL2z*0 * pichL2x + wiexpL2y * pichL2y;
+				w = -parseInt(wiexpL2x)*0; h = -parseInt(a); u = -parseInt(b);
+			wiFL2x = eval(ax0X); wiFL2y = eval(ax0Y); wiFL2z = eval(ax0Z);
+			frcR1x = frcR1x + wiFR1x; frcR1y = frcR1y + wiFR1y; frcR1z = frcR1z + wiFR1z;
+			frcL1x = frcL1x + wiFL1x; frcL1y = frcL1y + wiFL1y; frcL1z = frcL1z + wiFL1z;
+			frcR2x = frcR2x + wiFR2x; frcR2y = frcR2y + wiFR2y; frcR2z = frcR2z + wiFR2z;
+			frcL2x = frcL2x + wiFL2x; frcL2y = frcL2y + wiFL2y; frcL2z = frcL2z + wiFL2z;
+			w = wiFR1x; h = wiFR1y; u = wiFR1z; y = eval(ax1Y); z = eval(ax1Z);
+			torR1w = torR1w + d3 * (z * Math.cos(angWP * 2 * Math.PI) - y * Math.sin(angWP * 2 * Math.PI));
+			w = wiFL1x; h = wiFL1y; u = wiFL1z; y = eval(ax1Y); z = eval(ax1Z);
+			torL1w = torL1w + d3 * (z * Math.cos(angWP * 2 * Math.PI) - y * Math.sin(angWP * 2 * Math.PI));
+			w = wiFR2x; h = wiFR2y; u = wiFR2z; y = eval(ax1Y); z = eval(ax1Z);
+			torR2w = torR2w + d3 * (z * Math.cos(angWN * 2 * Math.PI) - y * Math.sin(angWN * 2 * Math.PI));
+			w = wiFL2x; h = wiFL2y; u = wiFL2z; y = eval(ax1Y); z = eval(ax1Z);
+			torL2w = torL2w + d3 * (z * Math.cos(angWN * 2 * Math.PI) - y * Math.sin(angWN * 2 * Math.PI));
+
+			vek_R1x = wiFR1x/200; vek_R1y = wiFR1y/200; vek_R1z = wiFR1z/200;
+			vek_L1x = wiFL1x/200; vek_L1y = wiFL1y/200; vek_L1z = wiFL1z/200;
+			vek_R2x = wiFR2x/200; vek_R2y = wiFR2y/200; vek_R2z = wiFR2z/200;
+			vek_L2x = wiFL2x/200; vek_L2y = wiFL2y/200; vek_L2z = wiFL2z/200;
+			mem1 = mem1 + vek_R1x + "," +vek_R1y + "," +vek_R1z + "," + pichR1 + ",";
+			mem2 = mem2 + vek_L1x + "," +vek_L1y + "," +vek_L1z + "," + pichL1 + ",";
+			mem3 = mem3 + vek_R2x + "," +vek_R2y + "," +vek_R2z + "," + pichR2 + ",";
+			mem4 = mem4 + vek_L2x + "," +vek_L2y + "," +vek_L2z + "," + pichL2 + ",";
+		}
+		
+
+		frcX = frcR1x + frcL1x + frcR2x + frcL2x;
+		frcY = frcR1y + frcL1y + frcR2y + frcL2y;
+		frcZ = frcR1z + frcL1z + frcR2z + frcL2z;
+		torX = pR1z * frcR1y - pR1y * frcR1z
+		     + pL1z * frcL1y - pL1y * frcL1z
+			 + pR2z * frcR2y - pR2y * frcR2z
+			 + pL2z * frcL2y - pL2y * frcL2z;
+		torY = pR1x * frcR1z - pR1z * frcR1x
+		     + pL1x * frcL1z - pL1z * frcL1x
+			 + pR2x * frcR2z - pR2z * frcR2x
+			 + pL2x * frcL2z - pL2z * frcL2x;
+		torZ = pR1y * frcR1x - pR1x * frcR1y
+		     + pL1y * frcL1x - pL1x * frcL1y
+			 + pR2y * frcR2x - pR2x * frcR2y
+			 + pL2y * frcL2x - pL2x * frcL2y;
+			 
+		x = 0; y = 12000; z =-12000*8;
+		a = posX - x; b = posY - y; c = posZ - z;
+		l = Math.sqrt(a * a + b * b + c * c);
+		a = a / l; b = b / l; c = c / l;
+		if(a > 0 || a < 0) {} else {a = 0}
+		if(b > 0 || b < 0) {} else {b = 0} 
+		if(c > 0 || c < 0) {} else {c = 0}
+		if(l > 0 || l < 0) {} else {l = 0}
+		frcX = frcX - a * 12000000000 / (l * l); frcY = frcY - b * 12000000000 / (l * l); frcZ = frcZ - c * 12000000000 / (l * l);
+		
+			 
+		accX = frcX / inaM;
+		accY = frcY / inaM - g;
+		accZ = frcZ / inaM;
+		aacX = torX / inax;
+		aacY = torY / inaY;
+		aacZ = torZ / inaZ;
+		aacW = (torR1w + torL1w - torR2w - torL2w + pow) / (4*inaW);
+
+	//	if(posX <-8  ){posX =-8  } if(posX > 8){posX = 8}
+	//	if(posY <-8  ){posY =-8  } if(posY > 8){posY = 8}
+	//	if(posZ > 0.5){posZ = 0.5} if(posZ <-8){posZ =-8}
+		if(pR1y < -posY){posY = -pR1y; velY = Math.sqrt(velY*velY)}
+		if(pL1y < -posY){posY = -pL1y; velY = Math.sqrt(velY*velY)}
+		if(pR2y < -posY){posY = -pR2y; velY = Math.sqrt(velY*velY)}
+		if(pL2y < -posY){posY = -pL2y; velY = Math.sqrt(velY*velY)}
+
+		if(-64 < posX && posX < -56 && 0 < posY && posY < 10 && -156 - 20 < posZ && posZ < -164 + 20) {velZ = -1200}
+		if(-64*2 < posX && posX < -56*2 && 48 < posY && posY < 10 + 48 && (-156 - 20)*48 < posZ && posZ < (-164 + 20)*48) {velZ = -12000}
+		
+
+	document.getElementById("camX").value = camX;
+	document.getElementById("camY").value = camY;
+	document.getElementById("camZ").value = camZ;
+	document.getElementById("rotX").value = rotX;
+	document.getElementById("rotY").value = rotY;
+	document.getElementById("rotZ").value = rotZ;
+	document.getElementById("rotA").value = rotA;
+	document.getElementById("rotB").value = rotB;
+	document.getElementById("rotC").value = rotC;
+	document.getElementById("posX").value = posX;
+	document.getElementById("posY").value = posY;
+	document.getElementById("posZ").value = posZ;
+	document.getElementById("angX").value = angX;
+	document.getElementById("angY").value = angY;
+	document.getElementById("angZ").value = angZ;
+	document.getElementById("angA").value = angA;
+	document.getElementById("angB").value = angB;
+	document.getElementById("angC").value = angC;
+	document.getElementById("angW").value = angW;
+	document.getElementById("velX").value = velX;
+	document.getElementById("velY").value = velY;
+	document.getElementById("velZ").value = velZ;
+	document.getElementById("avlX").value = avlX;
+	document.getElementById("avlY").value = avlY;
+	document.getElementById("avlZ").value = avlZ;
+	document.getElementById("avlW").value = avlW;
+	document.getElementById("accX").value = accX;
+	document.getElementById("accY").value = accY;
+	document.getElementById("accZ").value = accZ;
+	document.getElementById("aacX").value = aacX;
+	document.getElementById("aacY").value = aacY;
+	document.getElementById("aacZ").value = aacZ;
+	document.getElementById("aacW").value = aacW;
+		const canvas = document.getElementById('Canvas')
+		var context = canvas.getContext('2d');
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+				
+		let drawpoints = [];
+		let drawcommands = [];
+		let drawcircles = [];
+		
+		context.beginPath();
+		context.rect(0, 0, wid*1.25, hei*1.25);
+		context.fillStyle = '#' + "88" + "88" + "88";
+		context.fill();
+		
+		context.beginPath();
+		context.rect(0, 0, wid, hei);
+		context.fillStyle = '#' + "87" + "CE" + "EB";
+		context.fill();
+		
+		w =-120000; h =- d3 - camY; u =-120000; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 120000; h =- d3 - camY; u =-120000; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 120000; h =- d3 - camY; u = 120000; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-120000; h =- d3 - camY; u = 120000; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,0,136,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+		 
+		p = 0; x = 6; y = 6; k = 0; q = 0;
+			while(camZ < (k-1/3)*y/2) {k = k - 1/3} while(camZ > (k+0/3)*y/2) {k = k + 1/3} while(camX < (q-1/3)*x/2) {q = q - 1/3} while(camX > (q+1/3)*x/2) {q = q + 1/3}	
+			w =-x/2 + q*x/2 - camX; h = -d3 - camY; u =-y + k*y/2 - camZ; ax11x = eval(ax3X); ax11y = eval(ax3Y); ax11z = eval(ax3Z);
+			w = x/2 + q*x/2 - camX; h = -d3 - camY; u =-y + k*y/2 - camZ; ax12x = eval(ax3X); ax12y = eval(ax3Y); ax12z = eval(ax3Z);
+			w = x/2 + q*x/2 - camX; h = -d3 - camY; u = 0 + k*y/2 - camZ; ax13x = eval(ax3X); ax13y = eval(ax3Y); ax13z = eval(ax3Z);
+			w =-x/2 + q*x/2 - camX; h = -d3 - camY; u = 0 + k*y/2 - camZ; ax14x = eval(ax3X); ax14y = eval(ax3Y); ax14z = eval(ax3Z);
+			drawcommands = drawcommands.concat([4,0,170,0]); drawpoints = drawpoints.concat([ax11x,ax11y,ax11z,ax12x,ax12y,ax12z,ax13x,ax13y,ax13z,ax14x,ax14y,ax14z]);
+		for(var j = 0; j < y; j++) {
+		for(var i = 0; i < x*2; i++) {
+			w = 0   + i/2 - x/2 + q*x/2 - camX; h = -d3 - camY; u = 0   - j-p/2 + k*y/2 - camZ; ax11x = eval(ax3X); ax11y = eval(ax3Y); ax11z = eval(ax3Z);
+			w = 1/2 + i/2 - x/2 + q*x/2 - camX; h = -d3 - camY; u = 0   - j-p/2 + k*y/2 - camZ; ax12x = eval(ax3X); ax12y = eval(ax3Y); ax12z = eval(ax3Z);
+			w = 1/2 + i/2 - x/2 + q*x/2 - camX; h = -d3 - camY; u =-1/2 - j-p/2 + k*y/2 - camZ; ax13x = eval(ax3X); ax13y = eval(ax3Y); ax13z = eval(ax3Z);
+			w = 0   + i/2 - x/2 + q*x/2 - camX; h = -d3 - camY; u =-1/2 - j-p/2 + k*y/2 - camZ; ax14x = eval(ax3X); ax14y = eval(ax3Y); ax14z = eval(ax3Z);
+			drawcommands = drawcommands.concat([4,0,102,0]); drawpoints = drawpoints.concat([ax11x,ax11y,ax11z,ax12x,ax12y,ax12z,ax13x,ax13y,ax13z,ax14x,ax14y,ax14z]);
+			if(p==0){p=1;} else {if(p==1){p=0;}}
+		}
+		}
+
+		w =-16 - camX; h = 480-d3 - camY; u =-1 - camZ - 480*1.75; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 16 - camX; h = 480-d3 - camY; u =-1 - camZ - 480*1.75; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 16 - camX; h =    -d3 - camY; u =-1 - camZ - 480*1.75; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-16 - camX; h =    -d3 - camY; u =-1 - camZ - 480*1.75; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,0,0,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+		w =-16 - camX; h = 480-d3 - camY; u =-1 - camZ - 480     ; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 16 - camX; h = 480-d3 - camY; u =-1 - camZ - 480     ; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 16 - camX; h =    -d3 - camY; u =-1 - camZ - 480     ; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-16 - camX; h =    -d3 - camY; u =-1 - camZ - 480     ; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,0,0,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+
+		x = 0; y = 12000; z =-12000*8;
+		w = - camX + x; h =- camY + y; u =- camZ + z; x1 = eval(ax3X)-64*8/2; y1 = eval(ax3Y) + Math.sqrt(3/4)*64*8; z1 = eval(ax3Z);
+		w = - camX + x; h =- camY + y; u =- camZ + z; x2 = eval(ax3X)+64*8/2; y2 = eval(ax3Y) + Math.sqrt(3/4)*64*8; z2 = eval(ax3Z);
+		w = - camX + x; h =- camY + y; u =- camZ + z; x3 = eval(ax3X)+64*8/1; y3 = eval(ax3Y)                      ; z3 = eval(ax3Z);
+		w = - camX + x; h =- camY + y; u =- camZ + z; x4 = eval(ax3X)+64*8/2; y4 = eval(ax3Y) - Math.sqrt(3/4)*64*8; z4 = eval(ax3Z);
+		w = - camX + x; h =- camY + y; u =- camZ + z; x5 = eval(ax3X)-64*8/2; y5 = eval(ax3Y) - Math.sqrt(3/4)*64*8; z5 = eval(ax3Z);
+		w = - camX + x; h =- camY + y; u =- camZ + z; x6 = eval(ax3X)-64*8/1; y6 = eval(ax3Y)                      ; z6 = eval(ax3Z);
+		drawcommands = drawcommands.concat([6,0,0,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6])
+		
+		
+/*	w =-1; h = -d3; u =-1; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 1; h = -d3; u =-1; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 1; h = -d3; u = 1; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-1; h = -d3; u = 1; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,0,0,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+*/
+
+
+/*		w =-2/4; h = 1/32; u =-1;   x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 2/4; h = 1/32; u =-1;   x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 2/4; h =-1/32; u =-1;   x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-2/4; h =-1/32; u =-1;   x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,255,255,255]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+		w =-2/4; h = 1/32; u =+1;   x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 2/4; h = 1/32; u =+1;   x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 2/4; h =-1/32; u =+1;   x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-2/4; h =-1/32; u =+1;   x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,255,255,255]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+		w =-1;   h = 1/32; u =-2/4; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w =-1;   h = 1/32; u = 2/4; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w =-1;   h =-1/32; u = 2/4; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-1;   h =-1/32; u =-2/4; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,136,136,136]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+		w =+1;   h = 1/32; u =-2/4; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w =+1;   h = 1/32; u = 2/4; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w =+1;   h =-1/32; u = 2/4; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =+1;   h =-1/32; u =-2/4; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,136,136,136]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+*/
+		w =-4 - camX - 60; h = 10-d3 - camY; u = - camZ - 160; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 4 - camX - 60; h = 10-d3 - camY; u = - camZ - 160; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 4 - camX - 60; h = 0 -d3 - camY; u = - camZ - 160; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-4 - camX - 60; h = 0 -d3 - camY; u = - camZ - 160; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,255,0,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+		
+		w =-4 - camX - 120; h = 10-d3 - camY + 48; u = - camZ - 160*48; x1 = eval(ax3X); y1 = eval(ax3Y); z1 = eval(ax3Z);
+		w = 4 - camX - 120; h = 10-d3 - camY + 48; u = - camZ - 160*48; x2 = eval(ax3X); y2 = eval(ax3Y); z2 = eval(ax3Z);
+		w = 4 - camX - 120; h = 0 -d3 - camY + 48; u = - camZ - 160*48; x3 = eval(ax3X); y3 = eval(ax3Y); z3 = eval(ax3Z);
+		w =-4 - camX - 120; h = 0 -d3 - camY + 48; u = - camZ - 160*48; x4 = eval(ax3X); y4 = eval(ax3Y); z4 = eval(ax3Z);
+		drawcommands = drawcommands.concat([4,255,0,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4]);
+
+		chkptX = ""; chkptY = ""; chkptZ = ""; mark = ""; mark2 = ""; ax = 0;
+		for(var i = 0; i < checkpoints.length; i++) {
+			t = checkpoints[i]; if(ax > 2) {mark = mark + t}
+			if(t == ","){ax++;} else {if(ax == 0) {chkptX = chkptX + t} if(ax == 1) {chkptY = chkptY + t} if(ax == 2) {chkptZ = chkptZ + t}}
+		} chkptX = chkptX * 1; chkptY = chkptY * 1; chkptZ = chkptZ * 1;
+		if(Math.sqrt((posX - chkptX)*(posX - chkptX) + (posY - chkptY)*(posY - chkptY) + (posZ - chkptZ)*(posZ - chkptZ)) < 10) {
+			document.getElementById("checkpoints").value = mark + "," + chkptX + "," + chkptY + "," + chkptZ;}
+		w = - camX + chkptX; h =- camY + chkptY; u =- camZ + chkptZ; x1 = eval(ax3X)-8/2; y1 = eval(ax3Y) + Math.sqrt(3/4)*8; z1 = eval(ax3Z);
+		w = - camX + chkptX; h =- camY + chkptY; u =- camZ + chkptZ; x2 = eval(ax3X)+8/2; y2 = eval(ax3Y) + Math.sqrt(3/4)*8; z2 = eval(ax3Z);
+		w = - camX + chkptX; h =- camY + chkptY; u =- camZ + chkptZ; x3 = eval(ax3X)+8/1; y3 = eval(ax3Y)                   ; z3 = eval(ax3Z);
+		w = - camX + chkptX; h =- camY + chkptY; u =- camZ + chkptZ; x4 = eval(ax3X)+8/2; y4 = eval(ax3Y) - Math.sqrt(3/4)*8; z4 = eval(ax3Z);
+		w = - camX + chkptX; h =- camY + chkptY; u =- camZ + chkptZ; x5 = eval(ax3X)-8/2; y5 = eval(ax3Y) - Math.sqrt(3/4)*8; z5 = eval(ax3Z);
+		w = - camX + chkptX; h =- camY + chkptY; u =- camZ + chkptZ; x6 = eval(ax3X)-8/1; y6 = eval(ax3Y)                   ; z6 = eval(ax3Z);
+		drawcommands = drawcommands.concat([6,255,255,0]); drawpoints = drawpoints.concat([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6])
+
+
+/*		k = 3;
+		for(var i = 0; i < 5 + k * 2; i++) {
+		j = 0; while(gridposX/2 > j + 0.25) {j = j + 0.5;}  while(gridposX/2 < j - 0.25) {j = j - 0.5;}
+			context.beginPath();
+			context.rect(imgres * (j - 1 + i/2 -t1/2 - gridposX/2 - k/2) + wid/2, 0, imgres * t1, hei);
+			context.fillStyle = '#' + "88" + "88" + "88";
+			context.fill();
+		}
+		for(var i = 0; i < 5 + k; i++) {
+		j = 0; while(gridposY/2 > j + 0.25) {j = j + 0.5;}  while(gridposY/2 < j - 0.25) {j = j - 0.5;}
+			context.beginPath();
+			context.rect(0, -(imgres * (j - 3 + i/2 -t1/2 - gridposY/2) - k/2 + hei/2), wid, imgres * t1);
+			context.fillStyle = '#' + "88" + "88" + "88";
+			context.fill();
+		}
+*/
+		orderDrone = document.getElementById("orderDrone").value;
+		document.getElementById("orderDrone").value = orderDrone;
+		orderDrone = ""; orderBody = "";
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////scan	
+				if(pL2z < 0){orderDrone = orderDrone + "48";}
+				if(pR2z < 0){orderDrone = orderDrone + "27";}
+				if(pL1z < 0){orderDrone = orderDrone + "36";}
+				if(pR1z < 0){orderDrone = orderDrone + "15";}
+				orderDrone = orderDrone + "0";
+				if(pL2z > 0){orderDrone = orderDrone + "48";}
+				if(pR2z > 0){orderDrone = orderDrone + "27";}
+				if(pL1z > 0){orderDrone = orderDrone + "36";}
+				if(pR1z > 0){orderDrone = orderDrone + "15";}
+//////////////////////////////////scan
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+	for(var count = 0; count < players; count++) {
+		if(count == 1){
+			visX = - camX + 1; visY = - camY; visZ = - camZ;
+		}
+		for(var f = 0; f < 9; f++) {
+			p = orderDrone[f]; g = "";
+			if(p == 0){
+				w =- d7; h = + d2; u = +d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw1x = eval(ax3X); draw1y = eval(ax3Y); draw1z = eval(ax3Z);
+				w =+ d7; h = + d2; u = +d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw2x = eval(ax3X); draw2y = eval(ax3Y); draw2z = eval(ax3Z);
+				w =+ d7; h = - d2; u = +d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw3x = eval(ax3X); draw3y = eval(ax3Y); draw3z = eval(ax3Z);
+				w =- d7; h = - d2; u = +d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw4x = eval(ax3X); draw4y = eval(ax3Y); draw4z = eval(ax3Z);
+				w =- d7; h = + d2; u = -d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw5x = eval(ax3X); draw5y = eval(ax3Y); draw5z = eval(ax3Z);
+				w =+ d7; h = + d2; u = -d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw6x = eval(ax3X); draw6y = eval(ax3Y); draw6z = eval(ax3Z);
+				w =+ d7; h = - d2; u = -d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw7x = eval(ax3X); draw7y = eval(ax3Y); draw7z = eval(ax3Z);
+				w =- d7; h = - d2; u = -d1; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; draw8x = eval(ax3X); draw8y = eval(ax3Y); draw8z = eval(ax3Z);
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////scan
+				w = 0; h = 0; u =-d7 + 0.01; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z1 = eval(ax3Z);
+				w = 0; h = 0; u =-d7 - 0.01; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z2 = eval(ax3Z);
+				if(z1 < z2){orderBody = orderBody + "3";}
+				w = 0; h =-d2 + 0.01; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z1 = eval(ax3Z);
+				w = 0; h =-d2 - 0.01; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z2 = eval(ax3Z);
+				if(z1 < z2){orderBody = orderBody + "5";}
+				w =-d1 + 0.01; h = 0; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z1 = eval(ax3Z);
+				w =-d1 - 0.01; h = 0; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z2 = eval(ax3Z);
+				if(z1 < z2){orderBody = orderBody + "3";}
+				w =+d1 - 0.01; h = 0; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z1 = eval(ax3Z);
+				w =+d1 + 0.01; h = 0; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z2 = eval(ax3Z);
+				if(z1 < z2){orderBody = orderBody + "1";}
+				w = 0; h =+d2 - 0.01; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z1 = eval(ax3Z);
+				w = 0; h =+d2 + 0.01; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z2 = eval(ax3Z);
+				if(z1 < z2){orderBody = orderBody + "2";}
+				w = 0; h = 0; u =+d7 - 0.01; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z1 = eval(ax3Z);
+				w = 0; h = 0; u =+d7 + 0.01; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; z2 = eval(ax3Z);
+				if(z1 < z2){orderBody = orderBody + "6";}			
+//////////////////////////////////scan
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+//////////////////////////////////
+				for(var i = 0; i < orderBody.length; i++) {j = orderBody[i];
+					if(j == 1||j == 4){drawcommands = drawcommands.concat([4,175,238,238]) /*drawfile = drawfile + "#AFEEEE#";*/}
+					if(j == 2||j == 5){drawcommands = drawcommands.concat([4,064,064,064]) /*drawfile = drawfile + "#444444#";*/}
+					if(j == 3||j == 6){drawcommands = drawcommands.concat([4,032,032,032]) /*drawfile = drawfile + "#222222#";*/}
+					if(j == 2||j == 3||j == 1){drawpoints = drawpoints.concat([draw6x,draw6y,draw6z]) /*drawfile = drawfile + draw6x + "," + draw6y + "," + draw6z + ",";*/}
+					if(j == 2||j == 3||j == 4){drawpoints = drawpoints.concat([draw5x,draw5y,draw5z]) /*drawfile = drawfile + draw5x + "," + draw5y + "," + draw5z + ",";*/}
+					if(j == 2||j == 6||j == 4){drawpoints = drawpoints.concat([draw1x,draw1y,draw1z]) /*drawfile = drawfile + draw1x + "," + draw1y + "," + draw1z + ",";*/}
+					if(j == 2||j == 6||j == 1){drawpoints = drawpoints.concat([draw2x,draw2y,draw2z]) /*drawfile = drawfile + draw2x + "," + draw2y + "," + draw2z + ",";*/}
+					if(j == 5||j == 6||j == 1){drawpoints = drawpoints.concat([draw3x,draw3y,draw3z]) /*drawfile = drawfile + draw3x + "," + draw3y + "," + draw3z + ",";*/}
+					if(j == 5||j == 6||j == 4){drawpoints = drawpoints.concat([draw4x,draw4y,draw4z]) /*drawfile = drawfile + draw4x + "," + draw4y + "," + draw4z + ",";*/}
+					if(j == 5||j == 3||j == 4){drawpoints = drawpoints.concat([draw8x,draw8y,draw8z]) /*drawfile = drawfile + draw8x + "," + draw8y + "," + draw8z + ",";*/}
+					if(j == 5||j == 3||j == 1){drawpoints = drawpoints.concat([draw7x,draw7y,draw7z]) /*drawfile = drawfile + draw7x + "," + draw7y + "," + draw7z + ",";*/}
+				}
+			}
+			if(p == 1||p == 2||p == 3||p == 4){
+				for(var i = 0; i < 36; i++) {
+					if(p == 1){w = +d7; h = d3 * Math.cos((i/36) * 2 * Math.PI); u = + d1 + d3 * Math.sin((i/36) * 2 * Math.PI);}
+					if(p == 2){w = +d7; h = d3 * Math.cos((i/36) * 2 * Math.PI); u = - d1 + d3 * Math.sin((i/36) * 2 * Math.PI);}
+					if(p == 3){w = -d7; h = d3 * Math.cos((i/36) * 2 * Math.PI); u = + d1 + d3 * Math.sin((i/36) * 2 * Math.PI);}
+					if(p == 4){w = -d7; h = d3 * Math.cos((i/36) * 2 * Math.PI); u = - d1 + d3 * Math.sin((i/36) * 2 * Math.PI);}
+					x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; ax11x = eval(ax3X); ax11y = eval(ax3Y); ax11z = eval(ax3Z);
+					drawpoints = drawpoints.concat([ax11x, ax11y, ax11z]);
+				} drawcommands = drawcommands.concat([36,192,192,192])
+			}
+			if(p == 5||p == 6||p == 7||p == 8){g = blades; memmem = mem1;
+			for(var i = 0; i < g; i++){
+				vek_x = ""; vek_y = ""; vek_z = ""; pich = ""; k = 0;
+				if(p == 5){mem = mem1} if(p == 6){mem = mem2} if(p == 7){mem = mem3} if(p == 8){mem = mem4}
+				for(var j = 0; k < 4; j++) {
+					if(mem[j] == ",") {k++;} else {
+							if(k == 0){vek_x = vek_x + mem[j];}
+							if(k == 1){vek_y = vek_y + mem[j];}
+							if(k == 2){vek_z = vek_z + mem[j];}
+							if(k == 3){pich  = pich  + mem[j];}
+					}
+				} let result = mem.slice(j); mem = result;
+				if(p == 5){mem1 = mem} if(p == 6){mem2 = mem} if(p == 7){mem3 = mem} if(p == 8){mem4 = mem}
+
+				vek_x = vek_x*1; vek_y = vek_y*1; vek_z = vek_z*1;
+
+				context.fillStyle = '#' + "DC" + "14" + "3C"; if(p == 7||p == 8){context.fillStyle = '#' + "00" + "66" + "EE"}
+				if(p == 5){o = +angW + i/blades; pich = pich; pLRx = (0 - d1); pLRy = 0; d6LR = +d6; d8LR = +d8;}
+				if(p == 6){o = +angW + i/blades; pich = pich; pLRx = (0 - d1); pLRy = 0; d6LR = -d6; d8LR = -d8;}
+				if(p == 7){o = -angW + i/blades; pich = pich; pLRx = (0 + d1); pLRy = 0; d6LR = +d6; d8LR = +d8;}
+				if(p == 8){o = -angW + i/blades; pich = pich; pLRx = (0 + d1); pLRy = 0; d6LR = -d6; d8LR = -d8;}
+				x = Math.sin(pich * 2 * Math.PI);
+				y = Math.cos(pich * 2 * Math.PI);
+				rx = d3 * Math.sin(o * 2 * Math.PI);
+				ry = d3 * Math.cos(o * 2 * Math.PI);
+				w = d6LR; h = pLRy + ry - d5 * x + d4 * y; u = pLRx - rx - d4 * x - d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a1x = eval(ax3X); a1y = eval(ax3Y); a1z = eval(ax3Z);
+				w = d6LR; h = pLRy + ry - d5 * x - d4 * y; u = pLRx - rx + d4 * x - d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a2x = eval(ax3X); a2y = eval(ax3Y); a2z = eval(ax3Z);
+				w = d6LR; h = pLRy + ry + d5 * x - d4 * y; u = pLRx - rx + d4 * x + d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a3x = eval(ax3X); a3y = eval(ax3Y); a3z = eval(ax3Z);
+				w = d6LR; h = pLRy + ry + d5 * x + d4 * y; u = pLRx - rx - d4 * x + d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a4x = eval(ax3X); a4y = eval(ax3Y); a4z = eval(ax3Z);
+				w = d8LR; h = pLRy + ry - d5 * x + d4 * y; u = pLRx - rx - d4 * x - d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a5x = eval(ax3X); a5y = eval(ax3Y); a5z = eval(ax3Z);
+				w = d8LR; h = pLRy + ry - d5 * x - d4 * y; u = pLRx - rx + d4 * x - d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a6x = eval(ax3X); a6y = eval(ax3Y); a6z = eval(ax3Z);
+				w = d8LR; h = pLRy + ry + d5 * x - d4 * y; u = pLRx - rx + d4 * x + d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a7x = eval(ax3X); a7y = eval(ax3Y); a7z = eval(ax3Z);
+				w = d8LR; h = pLRy + ry + d5 * x + d4 * y; u = pLRx - rx - d4 * x + d5 * y; x2 = eval(ax0X); y2 = eval(ax0Y); z2 = eval(ax0Z); w = x2 + visX; h = y2 + visY; u = z2 + visZ; a8x = eval(ax3X); a8y = eval(ax3Y); a8z = eval(ax3Z);
+				for(var k = 0; k < 4; k++) {
+					if(k == 0)         {d3x = a3x; d3y = a3y; d3z = a3z; d4x = a4x; d4y = a4y; d4z = a4z;}
+					if(k == 1)         {d3x = a6x; d3y = a6y; d3z = a6z; d4x = a5x; d4y = a5y; d4z = a5z;}
+					if(k == 2)         {d1x = a4x; d1y = a4y; d1z = a4z; d2x = a3x; d2y = a3y; d2z = a3z;}
+					if(k == 3)         {d1x = a5x; d1y = a5y; d1z = a5z; d2x = a6x; d2y = a6y; d2z = a6z;}
+					if(k == 0||k == 1) {d1x = a1x; d1y = a1y; d1z = a1z; d2x = a2x; d2y = a2y; d2z = a2z;}
+					if(k == 2||k == 3) {d3x = a7x; d3y = a7y; d3z = a7z; d4x = a8x; d4y = a8y; d4z = a8z;}
+					drawpoints = drawpoints.concat([d1x,d1y,d1z,d2x,d2y,d2z,d3x,d3y,d3z,d4x,d4y,d4z]);
+					if(p == 7||p == 8){drawcommands = drawcommands.concat([4,0,102,238])} else {drawcommands = drawcommands.concat([4,220,20,60]);}
+				}
+				if(p == 5){w = (d7 + d8)/2; h = d3 * Math.cos((+angW + i/blades) * 2 * Math.PI) + vek_y; u = d1 + d3 * Math.sin((+angW + i/blades) * 2 * Math.PI) + vek_z;}
+				if(p == 6){w =-(d7 + d8)/2; h = d3 * Math.cos((+angW + i/blades) * 2 * Math.PI) + vek_y; u = d1 + d3 * Math.sin((+angW + i/blades) * 2 * Math.PI) + vek_z;}
+				if(p == 7){w = (d7 + d8)/2; h = d3 * Math.cos((-angW + i/blades) * 2 * Math.PI) + vek_y; u =-d1 + d3 * Math.sin((-angW + i/blades) * 2 * Math.PI) + vek_z;}
+				if(p == 8){w =-(d7 + d8)/2; h = d3 * Math.cos((-angW + i/blades) * 2 * Math.PI) + vek_y; u =-d1 + d3 * Math.sin((-angW + i/blades) * 2 * Math.PI) + vek_z;}
+				x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; x = eval(ax3X); y = eval(ax3Y); z = eval(ax3Z);
+				x = x / (1 - z*fov); y = y / (1 - z*fov); d = d3/(8 * (1 - z));
+				//if(-0.8 < x&&x < 0.8&&-0.8 < y&&y < 0.8){drawcircles = drawcircles.concat([x,y,d,255,255,136]);}
+			}
+			if(p == 5){w = pR1x + frcR1x/(40*blades); h = pR1y + frcR1y/(40*blades); u = pR1z + frcR1z/(40*blades);}
+			if(p == 6){w = pL1x + frcL1x/(40*blades); h = pL1y + frcL1y/(40*blades); u = pL1z + frcL1z/(40*blades);}
+			if(p == 7){w = pR2x + frcR2x/(40*blades); h = pR2y + frcR2y/(40*blades); u = pR2z + frcR2z/(40*blades);}
+			if(p == 8){w = pL2x + frcL2x/(40*blades); h = pL2y + frcL2y/(40*blades); u = pL2z + frcL2z/(40*blades);}
+			x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; x = eval(ax3X); y = eval(ax3Y); z = eval(ax3Z);
+			x = x / (1 - z*fov); y = y / (1 - z*fov); d = d3/(8 * (1 - z));
+			//if(-0.8 < x&&x < 0.8&&-0.8 < y&&y < 0.8){drawcircles = drawcircles.concat([x,y,d,000,136,000]);}
+		}
+	}
+	
+/**/
+	//drawpoints = [0,-0.5,-1,1,-0.5,-1,1,0.5,-1,0,0.5,-1,-1,-0.5,-1,0,-0.5,-1,0,0.5,-1,-1,0.5,-1]; drawcommands = [4,128,128,128,4,0,128,0];
+	let drawpointsmark = drawpoints; drawpoints = [];
+	i = 0; k = 0; n = 0; x = 0; y = 0; z = 0; a = 0; b = 0; c = 0; s = 1;
+	for(var k = 0; k < drawcommands.length; k = k + 4) {
+		n = 0; x = drawpointsmark[i + drawcommands[k]*3 - 3]; y = drawpointsmark[i + drawcommands[k]*3 - 2]; z = drawpointsmark[i + drawcommands[k]*3 - 1];
+		for(var j = 0; j < drawcommands[k]; j++) {
+			a = drawpointsmark[i]; b = drawpointsmark[i+1]; c = drawpointsmark[i+2];
+			if((z > s && c < s)||(z < s && c > s)) {n++; drawpoints = drawpoints.concat([(a * z - x * c) / (z - c), (b * z - y * c) / (z - c),0]);}
+			if(c < s) {drawpoints = drawpoints.concat([a,b,c]); n++;} x = a; y = b; z = c; i = i + 3;
+		} drawcommands[k] = n;
+	}
+	
+		i = 0; k = 0; while(i < drawcommands.length) {context.beginPath();
+			for(var j = 0; j < drawcommands[i]; j++) {
+				x = drawpoints[k]; y = drawpoints[k+1]; z = drawpoints[k+2]; k = k + 3; x = x / (1 - z*fov); y = y / (1 - z*fov);
+				if(1 - z*fov > 0) {context.lineTo(wid/2 + (imgres/2) * (x),hei/2 - (imgres/2) * (y));}
+			} x = drawcommands[i+1].toString(16); y = drawcommands[i+2].toString(16); z = drawcommands[i+3].toString(16);
+			if(x.length == 1) {x = 0 + x} if(y.length == 1) {y = 0 + y} if(z.length == 1) {z = 0 + z}
+			context.fillStyle = '#' + x + y + z + "FF"; i = i + 4; context.fill();
+		}
+}
+		w = comX; h = comY; u = comZ; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; x = eval(ax3X); y = eval(ax3Y); z = eval(ax3Z);
+		drawcircles = drawcircles.concat([x / (1 - z*fov),y / (1 - z*fov),d3/(8 * (1 - z)),213,000,249]);
+		w = 0; h = 0; u = 1/2; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; x = eval(ax3X); y = eval(ax3Y); z = eval(ax3Z);
+		drawcircles = drawcircles.concat([x / (1 - z*fov),y / (1 - z*fov),d3/(8 * (1 - z)),136,136,255]);
+		w = 0; h = 1/2; u = 0; x = eval(ax0X); y = eval(ax0Y); z = eval(ax0Z); w = x + visX; h = y + visY; u = z + visZ; x = eval(ax3X); y = eval(ax3Y); z = eval(ax3Z);
+		drawcircles = drawcircles.concat([x / (1 - z*fov),y / (1 - z*fov),d3/(8 * (1 - z)),000,000,255]);
+
+		if(Math.sqrt(joy1x*joy1x + joy1y*joy1y) > 1){r = Math.sqrt(joy1x*joy1x + joy1y*joy1y); joy1x = joy1x / r; joy1y = joy1y / r;}
+		if(joyOn == 1) {
+			drawcircles = drawcircles.concat([joy1PosX*2/imgres,joy1PosY*2/imgres,(joy1PosZ/4)*2/imgres,136,136,204]);
+			drawcircles = drawcircles.concat([joy2PosX*2/imgres,joy2PosY*2/imgres,(joy2PosZ/4)*2/imgres,136,136,204]);
+			drawcircles = drawcircles.concat([joy1PosX*2/imgres + joy1x/8,joy1PosY*2/imgres + joy1y/8,(joy1PosZ/8)*2/imgres,170,170,170]);
+			drawcircles = drawcircles.concat([joy2PosX*2/imgres + joy2x/8,joy2PosY*2/imgres + joy2y/8,(joy1PosZ/8)*2/imgres,170,170,170]);
+		}
+
+		//drawcircles = [0,0,1/8,255,255,255,0,-1/4,1/8,0,0,0];
+		i = 0; while(i < drawcircles.length) {
+			x = drawcircles[i]; y = drawcircles[i+1]; d = drawcircles[i+2]; R = drawcircles[i+3].toString(16); G = drawcircles[i+4].toString(16); B = drawcircles[i+5].toString(16);
+			if((x < 1||x > -1)&&(y < 1||y > -1)&&(d>0)) {} else {x = 0; y = 0; d = 0;}
+			if(R.length == 1) {R = 0 + R} if(G.length == 1) {G = 0 + G} if(B.length == 1) {B = 0 + B}
+			context.beginPath();
+			context.arc(wid/2 + (imgres/2) * (x),hei/2 - (imgres/2) * (y), (d) * (imgres/2), Math.PI*2-0.001,Math.PI*2,true);
+			context.fillStyle = '#' + R + G + B;
+			context.fill(); i = i + 6;
+		}
+
+		context.beginPath();
+		w = -1/64 + comX; h = +1/64 + comY; u = comZ; ax11z = eval(ax0Z); ax11x = eval(ax0X) / (1 - ax11z*fov); ax11y = eval(ax0Y) / (1 - ax11z*fov);
+		w = +1/64 + comX; h = +1/64 + comY; u = comZ; ax12z = eval(ax0Z); ax12x = eval(ax0X) / (1 - ax12z*fov); ax12y = eval(ax0Y) / (1 - ax12z*fov);
+		w = +1/64 + comX; h = -1/64 + comY; u = comZ; ax13z = eval(ax0Z); ax13x = eval(ax0X) / (1 - ax13z*fov); ax13y = eval(ax0Y) / (1 - ax13z*fov);
+		w = -1/64 + comX; h = -1/64 + comY; u = comZ; ax14z = eval(ax0Z); ax14x = eval(ax0X) / (1 - ax14z*fov); ax14y = eval(ax0Y) / (1 - ax14z*fov);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax11x + posX),imgres/2 + camX - (imgres/2) * (ax11y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax12x + posX),imgres/2 + camX - (imgres/2) * (ax12y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax13x + posX),imgres/2 + camX - (imgres/2) * (ax13y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax14x + posX),imgres/2 + camX - (imgres/2) * (ax14y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.fillStyle = '#' + "D5" + "00" + "F9";
+		//context.fill();
+
+		for(var i = 0; i < 2; i++) {
+			if(i == 1){
+				w =-1/4; h = 1/4; u = 1/4; ax11x = eval(ax0X); ax11y = eval(ax0Y); ax11z = eval(ax0Z) + visZ;
+				w = 1/4; h = 1/4; u = 1/4; ax12x = eval(ax0X); ax12y = eval(ax0Y); ax12z = eval(ax0Z) + visZ;
+				w = 1/4; h = 1/4; u =-1/4; ax13x = eval(ax0X); ax13y = eval(ax0Y); ax13z = eval(ax0Z) + visZ;
+				w =-1/4; h = 1/4; u =-1/4; ax14x = eval(ax0X); ax14y = eval(ax0Y); ax14z = eval(ax0Z) + visZ;
+				context.beginPath();
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax11x / (1 - ax11z*fov)),imgres/2 + camX - (imgres/2) * (ax11y / (1 - ax11z*fov)));
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax12x / (1 - ax12z*fov)),imgres/2 + camX - (imgres/2) * (ax12y / (1 - ax12z*fov)));
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax13x / (1 - ax13z*fov)),imgres/2 + camX - (imgres/2) * (ax13y / (1 - ax13z*fov)));
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax14x / (1 - ax14z*fov)),imgres/2 + camX - (imgres/2) * (ax14y / (1 - ax14z*fov)));
+				context.fillStyle = '#' + "FF" + "88" + "88"; 
+				//context.fill();
+				
+				w =-1/4; h = 1/4; u = 1/4; ax11x = eval(ax0X); ax11y = eval(ax0Y); ax11z = eval(ax0Z);
+				w = 1/4; h = 1/4; u = 1/4; ax12x = eval(ax0X); ax12y = eval(ax0Y); ax12z = eval(ax0Z);
+				w = 1/4; h =-1/4; u = 1/4; ax13x = eval(ax0X); ax13y = eval(ax0Y); ax13z = eval(ax0Z);
+				w =-1/4; h =-1/4; u = 1/4; ax14x = eval(ax0X); ax14y = eval(ax0Y); ax14z = eval(ax0Z);
+				context.beginPath();
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax11x / (1 - ax11z*fov)),imgres/2 + camX - (imgres/2) * (ax11y / (1 - ax11z*fov)));
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax12x / (1 - ax12z*fov)),imgres/2 + camX - (imgres/2) * (ax12y / (1 - ax12z*fov)));
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax13x / (1 - ax13z*fov)),imgres/2 + camX - (imgres/2) * (ax13y / (1 - ax13z*fov)));
+				context.lineTo(imgres/2 - camX + (imgres/2) * (ax14x / (1 - ax14z*fov)),imgres/2 + camX - (imgres/2) * (ax14y / (1 - ax14z*fov)));
+				context.fillStyle = '#' + "88" + "88" + "88";
+				//context.fill();
+			}
+		}
+		
+		context.beginPath();
+		w = (posX + d1) - posX;      h = posY - posY + d3; u = 0; ax11z = eval(ax0Z); ax11x = eval(ax0X) / (1 - ax11z*fov); ax11y = eval(ax0Y) / (1 - ax11z*fov);
+		w = (posX + d1) - posX + d3; h = posY - posY;      u = 0; ax12z = eval(ax0Z); ax12x = eval(ax0X) / (1 - ax12z*fov); ax12y = eval(ax0Y) / (1 - ax12z*fov);
+		w = (posX + d1) - posX;      h = posY - posY - d3; u = 0; ax13z = eval(ax0Z); ax13x = eval(ax0X) / (1 - ax13z*fov); ax13y = eval(ax0Y) / (1 - ax13z*fov);
+		w = (posX + d1) - posX - d3; h = posY - posY;      u = 0; ax14z = eval(ax0Z); ax14x = eval(ax0X) / (1 - ax14z*fov); ax14y = eval(ax0Y) / (1 - ax14z*fov);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax11x + posX),imgres/2 + camX - (imgres/2) * (ax11y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax12x + posX),imgres/2 + camX - (imgres/2) * (ax12y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax13x + posX),imgres/2 + camX - (imgres/2) * (ax13y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.lineTo(imgres/2 - camX + (imgres/2) * (ax14x + posX),imgres/2 + camX - (imgres/2) * (ax14y + posY), (imgres/2) * (1/32), Math.PI*2-0.001,Math.PI*2,true);
+		context.fillStyle = '#' + "88" + "00" + "00"; 
+	//	context.fill();
+	
+	document.getElementById("utskrift").innerHTML = test;
+	
+		//	drawfile = ""; drawfile = drawfile + "#008800#"; let drawfile2 = [];
+	//drawfile = "#000000#-1,-0.5,-1,0.01,-0.5,-1,0.01,0.5,-1,-1,0.5,-1#FFFFFF#0.01,-0.5,-1,1,-0.5,-1,1,0.5,-1,0.01,0.5,-1";
+/*	ax = 0; read = 0; color = ""; mark = ""; x = ""; y = ""; z = ""; drawfile = drawfile + ",";
+	for(var i = 0; i < drawfile.length; i++) {
+		t = drawfile[i];
+		if(t == "#") {read++; if(read == 2) {read = 0; mark = mark + "#";} else {ax = 3;}}
+		if(read == 0) {if(t == ",") {ax++;} else {if(t == "#") {} else {if(ax == 0) {x = x + t} if(ax == 1) {y = y + t} if(ax == 2) {z = z + t}}}}
+		if(ax == 3) {ax = 0; x = x / (1 - z*fov); y = y / (1 - z*fov); if(x != 0&&y != 0&&z < 1) {mark = mark + x + "," + y + ",";} x = ""; y = ""; z = "";}
+		if(read == 1) {mark = mark + t;}
+	} drawfile = ""; read = 0; for(var i = 0; i < mark.length-1; i++) {t0 = mark[i]; t1 = mark[i+1]; if(t0 == ","&&(t1 == ","||t1 == "#")){} else {drawfile = drawfile + t0;}}
+	read = 0; ax = 0; color = ""; drawfile = drawfile + "#";
+	for(var i = 0; i < drawfile.length; i++) {
+		t = drawfile[i];
+		if(t == "#") {read++; if(read == 2) {read = 0; context.fillStyle = color; context.beginPath(); color = ""; }ax = 2;}
+		if(read == 0) {
+			if(t == ","){ax++;} else {if(t == "#") {} else {if(ax == 0) {x = x + t} if(ax == 1) {y = y + t}}}
+		} else {color = color + t;}
+		if(ax == 2) {if(x == 0||y == 0) {} else {context.lineTo(wid/2 + (imgres/2) * (x),hei/2 - (imgres/2) * (y));} ax = 0; x = ""; y = "";}
+		if(t == "#") {if(read == 2) {} else {context.fill();}}
+	}*/
+	//drawfile2 = [100,513,0,0,-1,1,0,-1,1,1,-1,0,1,-1]; drawfile2 = drawfile2.concat([100,514]);
+	//i = 0;  drawfile2 = [0];
+/*	while(i < drawfile2.length) {
+		x = drawfile2[i];if(x == 100){i++; t = drawfile2[i];
+			if(t == 512) {x = 0} else {if(t < 512) {context.fillStyle = '#' +  drawfile2[i] +  drawfile2[i + 1] +  drawfile2[i + 2]; i++; i++;}
+			if(t == 513) {context.beginPath(); i++; x = drawfile2[i];} if(t == 514) {context.fill(); i++; x = drawfile2[i];}}} i++;
+		y = drawfile2[i]; if(y == 100){i++; t = drawfile2[i];
+			if(t == 512) {y = 0} else {if(t < 512) {context.fillStyle = '#' +  drawfile2[i] +  drawfile2[i + 1] +  drawfile2[i + 2]; i++; i++;}
+			if(t == 513) {context.beginPath(); i++; y = drawfile2[i];} if(t == 514) {conteyt.fill(); i++; y = drawfile2[i];}}} i++;
+		z = drawfile2[i]; if(z == 100){i++; t = drawfile2[i];
+			if(t == 512) {z = 0} else {if(t < 512) {context.fillStyle = '#' +  drawfile2[i] +  drawfile2[i + 1] +  drawfile2[i + 2]; i++; i++;}
+			if(t == 513) {context.beginPath(); i++; z = drawfile2[i];} if(t == 514) {contezt.fill(); i++; z = drawfile2[i];}}} i++;
+		//test = test + x + "," + y + "," + z + "|";
+		x = x / (1 - z*fov); y = y / (1 - z*fov);
+		context.lineTo(wid/2 + (imgres/2) * (x),hei/2 - (imgres/2) * (y));
+	}*/
+}
+
+
+
+
+
+function cheat() {
+	document.getElementById("utskrift2").innerHTML = "";
+	var utskrift2 = "";
+	var cheatput = document.getElementById("typeline").value;
+	var Cheatpart = document.getElementById("Cheatpart").value;
+	var minnex = document.getElementById("loopB").value;
+	var minnex2 = "";
+	var key = "";
+	var mark = "";
+	var k = 0;
+	var cheatlock = document.getElementById("Cheatlock").value;
+	
+	for(var i = 0; i < 64; i++) {
+		key = cheatput[i] + key;
+		document.getElementById("utskrift2").innerHTML = "";
+		
+		if(key == "load") {load(); utskrift2 =  "file has been uploaded";}
+		
+		if(key == "rem") {
+			rem = document.getElementById("RemoteON").value;
+			if(rem == 0) {rem = 1;} else {rem = 0;}
+			document.getElementById("RemoteON").value = rem;
+			utskrift2 = "Statement = " + rem;
+		}
+		
+		if(key == "rrr") {location.reload();}
+		
+		if(key == "mo0") {document.getElementById("stearmode").value = 0; utskrift2 = "0"}		
+		if(key == "mo1") {document.getElementById("stearmode").value = 1; utskrift2 = "1"}
+		if(key == "mo2") {document.getElementById("stearmode").value = 2; utskrift2 = "2"}
+		if(key == "mo3") {document.getElementById("stearmode").value = 3; utskrift2 = "3"}
+		if(key == "mo4") {document.getElementById("stearmode").value = 4; utskrift2 = "4"}
+		if(key == "mo5") {document.getElementById("stearmode").value = 5; utskrift2 = "5"}
+		if(key == "mo6") {document.getElementById("stearmode").value = 6; utskrift2 = "6"}
+		if(key == "mo7") {document.getElementById("stearmode").value = 7; utskrift2 = "7"}
+		if(key == "mo8") {document.getElementById("stearmode").value = 8; utskrift2 = "8"}
+		if(key == "mo9") {document.getElementById("stearmode").value = 9; utskrift2 = "9"}
+	}
+	cheatcode = key;
+	draw();
+	document.getElementById("utskrift2").innerHTML = utskrift2
+	document.getElementById("typeline").value = cheatput;
+}
+
+
+
+document.addEventListener('keydown', function(event) {
+	if(event.keyCode == 32) {start();}
+	if(event.keyCode == 13) {load();}
+
+
+	if(event.keyCode == 48) {document.getElementById("typeline").value = "0" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 49) {document.getElementById("typeline").value = "1" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 50) {document.getElementById("typeline").value = "2" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 51) {document.getElementById("typeline").value = "3" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 52) {document.getElementById("typeline").value = "4" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 53) {document.getElementById("typeline").value = "5" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 54) {document.getElementById("typeline").value = "6" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 55) {document.getElementById("typeline").value = "7" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 56) {document.getElementById("typeline").value = "8" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 57) {document.getElementById("typeline").value = "9" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 65) {document.getElementById("typeline").value = "a" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 66) {document.getElementById("typeline").value = "b" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 67) {document.getElementById("typeline").value = "c" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 68) {document.getElementById("typeline").value = "d" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 69) {document.getElementById("typeline").value = "e" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 70) {document.getElementById("typeline").value = "f" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 71) {document.getElementById("typeline").value = "g" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 72) {document.getElementById("typeline").value = "h" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 73) {document.getElementById("typeline").value = "i" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 74) {document.getElementById("typeline").value = "j" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 75) {document.getElementById("typeline").value = "k" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 76) {document.getElementById("typeline").value = "l" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 77) {document.getElementById("typeline").value = "m" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 78) {document.getElementById("typeline").value = "n" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 79) {document.getElementById("typeline").value = "o" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 80) {document.getElementById("typeline").value = "p" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 81) {document.getElementById("typeline").value = "q" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 82) {document.getElementById("typeline").value = "r" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 83) {document.getElementById("typeline").value = "s" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 84) {document.getElementById("typeline").value = "t" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 85) {document.getElementById("typeline").value = "u" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 86) {document.getElementById("typeline").value = "v" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 87) {document.getElementById("typeline").value = "w" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 88) {document.getElementById("typeline").value = "x" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 89) {document.getElementById("typeline").value = "y" + document.getElementById("typeline").value;cheat();}
+	if(event.keyCode == 90) {document.getElementById("typeline").value = "z" + document.getElementById("typeline").value;cheat();}
+	
+
+	/*	if(event.keyCode == 39) {document.getElementById("keyRemX").value = +1;}
+		if(event.keyCode == 37) {document.getElementById("keyRemX").value = -1;}
+		if(event.keyCode == 38) {document.getElementById("keyRemY").value = +1;}
+		if(event.keyCode == 40) {document.getElementById("keyRemY").value = -1;}
+	*/
+	if (event.code === 'Space') {event. preventDefault();}
+	if (event.code == 39) {event. preventDefault();}
+	
+});
+	window.addEventListener("keydown", function(e) {if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {e.preventDefault();}}, false);
+	
+	window.addEventListener('mousemove', function (e) {
+		imgres = 768;
+		wid = window.innerWidth;
+		hei = window.innerHeight;
+		document.getElementById('x-value').textContient = e.x;
+		document.getElementById('y-value').textContient = e.y;
+		mouseX = -wid/2 + document.getElementById('x-value').textContient;
+		mouseY = +hei/2 - document.getElementById('y-value').textContient;
+		document.getElementById("mouseX").value = 2 * mouseX/wid;
+		document.getElementById("mouseY").value = 2 * mouseY/hei;
+		if((mouseX > 0)||(mouseX < 0)){} else {mouseX = 0;}
+		if((mouseY > 0)||(mouseY < 0)){} else {mouseY = 0;}
+	});
+	document.addEventListener("keydown", function(e) {
+		keylist = document.getElementById("keypress").value;
+		keylist[e.keyCode]=1;
+		document.getElementById("keypress").value = keylist;
+    });
+	document.addEventListener("keyup", function(e) {
+		keylist = document.getElementById("keypress").value;
+		keylist[e.keyCode]=0;
+		document.getElementById("keypress").value = keylist;
+    });
+
+	document.addEventListener("touchstart", e => {console.log("Start")});
+	document.addEventListener("touchmove" , e => {console.log("Move" )});
+	document.addEventListener("touchend"  , e => {console.log("End"  )});	
+	
+	document.addEventListener("touchmove", () => {
+		var x = (event.touches[0].clientX - window.innerWidth /2 + joy1PosX)*16/imgres;
+		var y = (event.touches[0].clientY - window.innerHeight/2 + joy1PosY)*16/imgres;
+		if(Math.sqrt(x*x + y*y) > 1){r = Math.sqrt(x*x + y*y); x = x / r; y = y / r;}
+		if(x > 1) {x = 1} if(x <-1) {x =-1} if(y > 1) {y = 1} if(y <-1) {y =-1}
+		document.getElementById("touch2x").value = +x;
+		document.getElementById("touch2y").value = -y;
+		document.querySelector(".TouchResult").innerHTML = "(" + x + ", " + y + ")";
+	});
+	document.addEventListener("touchend", () => {
+		document.getElementById("touch2x").value = 0;
+		document.getElementById("touch2y").value = 0;
+		document.querySelector(".TouchResult").innerHTML = "(" + x + ", " + y + ")";
+	});
+	</script>
+<style>  
+	html, body {overscroll-behavior: none; /* Prevents pull-to-refresh */}
+	:root {touch-action: pan-x pan-y;height: 100% }
+	* {margin: 0; padding: 0;}
+	body, html {height:100%;}
+	#canvas {position:absolute; height:100%; width:100%;}
+</style>
+</head>
+</head>
+<body>
+		<p id="utskrift"> </p>
+		<canvas id="Canvas" width="2768" height="2768"></canvas>
+	<p>
+		<input type="text" id="file" value = "" />
+		<input type="button" id="btnStart" value="Play" />
+		<input type="button" id="btnTest" value="test" />
+		<input type="button" id="btnLoad" value="upload" />
+		<input type="button" id="btnLoad" value="download" />
+		<input type="text" id="txtE" value = "" />
+		<input type="text" id="txtG" value = "" />
+		
+		<p id="image"> </p>
+		<p id="move"> </p>
+		<p id="output"> </p>
+		<p id="utskrift2"> </p>
+
+		<p id="fps"> </p>
+		<p id="fpscount"> </p>
+		<p id="loopporderX"> </p>
+		<p id="loopporderY"> </p>
+		<p id="loopB"> </p>
+		<p id="txtAx"> </p>
+		<p id="txtF"> </p>
+		<p id="camX"> </p> <p id="camY"> </p> <p id="camZ"> </p>
+		<p id="rotX"> </p> <p id="rotY"> </p> <p id="rotZ"> </p> <p id="rotA"> </p> <p id="rotB"> </p> <p id="rotC"> </p>
+		<p id="posX"> </p> <p id="posY"> </p> <p id="posZ"> </p>
+		<p id="angX"> </p> <p id="angY"> </p> <p id="angZ"> </p> <p id="angA"> </p> <p id="angB"> </p> <p id="angC"> </p>  <p id="angW"> </p>
+		<p id="velX"> </p> <p id="velY"> </p> <p id="velZ"> </p>
+		<p id="avlX"> </p> <p id="avlY"> </p> <p id="avlZ"> </p>                                                           <p id="avlW"> </p>
+		<p id="accX"> </p> <p id="accY"> </p> <p id="accZ"> </p>
+		<p id="aacX"> </p> <p id="aacY"> </p> <p id="aacZ"> </p>                                                           <p id="aacW"> </p>
+		<p id="frcX"> </p> <p id="frcY"> </p> <p id="frcZ"> </p>
+		<p id="torX"> </p> <p id="torY"> </p> <p id="torZ"> </p>                                                           <p id="torW"> </p>
+		<p id="inax"> </p> <p id="inaY"> </p> <p id="inaZ"> </p>                                                           <p id="inaW"> </p> <p id="inaP" > </p> <p id="inaM" > </p>
+		<p id="comX"> </p> <p id="comY"> </p> <p id="comZ"> </p> 
+		<p id="winX"> </p> <p id="winY"> </p> <p id="winZ"> </p>
+		<p id="orderBody">
+		<p id="orderDrone">
+		<p id="mouseX"> </p>
+		<p id="mouseY"> </p>
+		<p id="keyRemX"> </p>
+		<p id="keyRemY"> </p>
+		<p id="keypress"> </p>
+		<p id="touch1x"> </p>
+		<p id="touch1y"> </p>
+		<p id="touch2x"> </p>
+		<p id="touch2y"> </p>
+		<p id="gridposX"> </p>
+		<p id="gridposY"> </p>
+		<p id="cameraPerspectives"> </p>
+		<p id="checkpoints"> </p>
+		<p id="videoRecord"> </p>
+		<p id="videoCommand"> </p>
+		<p id="videoPos"> </p>
+		<p id="C"> </p>
+		<p id="run"> </p>
+		<p id="btnCheat"> </p>
+		<p id="typeline"> </p>
+		<p id="Cheatpart"> </p>
+		<p id="Cheatlock"> </p>
+		<p id="RemoteID"> </p>
+		<p id="RemoteON"> </p>
+		<p id="stearmode"> </p>
+		<span id="x-value"></span>
+		<span id="y-value"></span>
+		<div class="TouchResult"></div>
+	</p>
+</body>
+</html>
